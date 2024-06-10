@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 19:42:38 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/10 20:52:59 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/10 21:02:22 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	init_utils(t_utils *utils, int argc, char **argv)
 	init_params(&utils->params, argc, argv);
 	utils->philo_list = init_philo(utils->params.n_philo);
 	if (!utils->philo_list)
-		return (NULL);
+		exit (1);
 }

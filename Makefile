@@ -6,7 +6,7 @@
 #    By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/10 18:09:40 by fmoran-m          #+#    #+#              #
-#    Updated: 2024/06/10 20:26:42 by fmoran-m         ###   ########.fr        #
+#    Updated: 2024/06/10 21:01:36 by fmoran-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRC = main.c \
 		init.c \
 		lists_func.c \
+		actions.c \
 		utils.c
 
 OBJS = ${SRC:.c=.o}

@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/10 18:08:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/10 21:02:35 by fmoran-m         ###   ########.fr       */
+/*   Created: 2024/06/10 20:57:10 by fmoran-m          #+#    #+#             */
+/*   Updated: 2024/06/10 21:01:18 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void	*philo_sleep(void *utils)
 {
-	t_utils	utils;
+}
 
-	control_argv(argc, argv);
-	init_utils(&utils, argc, argv);
-	return (0);
+void	*philo_eat(void *utils)
+{
+}
+
+void	*philo_think(void *utils)
+{
+}
+
+void	*philo_take_fork(void *utils)
+{
 }
