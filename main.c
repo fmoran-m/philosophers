@@ -6,18 +6,11 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:08:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/10 18:13:00 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/10 18:48:49 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-/*
-static void	*thread_function(void * pointer)
-{
-	printf("%s\n", (char *)pointer);
-	return (NULL);
-}
-*/
 
 static int	str_is_number(char *str)
 {
@@ -54,18 +47,28 @@ static void	control_argv(int argc, char **argv)
 	}
 }
 
+void	init_params(t_params *params, int argc, char **argv)
+{
+	params->n_philo = ft_atoi(argv[1]);
+	params->time_die = ft_atoi(argv[2]);
+	params->time_eat = ft_atoi(argv[3]);
+	params->time_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		params->must_eat = ft_atoi(argv[5]);
+	else
+		params->must_eat = -1;
+}
+
+void	init_utils(t_utils *utils, int argc, char **argv)
+{
+	init_params(&utils->params, argc, argv);
+}
+
 int main	(int argc, char **argv)
 {
-//	pthread_t hilo;
-//	char	*str;
+	t_utils	utils;
 
 	control_argv(argc, argv);
-/*
-	str = "hola";
-	if (pthread_create(&hilo, NULL, &thread_function, str) != 0)
-	h	exit(1);
-	if (pthread_join(hilo, NULL) != 0)
-		exit(1);
-*/
+	init_utils(&utils, argc, argv);
 	return (0);
 }
