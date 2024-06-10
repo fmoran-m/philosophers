@@ -14,22 +14,22 @@
 
 t_philo	*new_philo(void)
 {
-	t_philo	*philo_list;
+	t_philo	*philo;
 
-	philo_list = ft_calloc(1, sizeof(t_philo));
-	if (!philo_list)
+	philo = ft_calloc(1, sizeof(t_philo));
+	if (!philo)
 		return (NULL);
-	philo_list->next = NULL;
-	return (philo_list);
+	philo->next = NULL;
+	return (philo);
 }
 
-void	philo_add_back(t_philo *philo_list, t_philo *new_philo)
+void	philo_add_back(t_philo *philo, t_philo *new_philo)
 {
 	t_philo	*head;
 
-	head = philo_list;
-	while (philo_list->next != NULL)
-		philo_list = philo_list->next;
-	new_philo = philo_list->next;
-	philo_list = head;
+	head = philo;
+	while (philo->next != NULL)
+		philo = philo->next;
+	philo->next = new_philo;
+	philo = head;
 }

@@ -26,29 +26,29 @@ void	init_params(t_params *params, int argc, char **argv)
 
 t_philo *init_philo(int n_philo)
 {
-	int	i;
     t_philo *current_philo;
-    t_philo *philo_list;
+    t_philo *philo;
+	int		i;
 
 	i = 1;
-	philo_list = new_philo(); // Al loro si el numero de philos es 0
-	if (!philo_list)
+	philo = new_philo(); // Al loro si el numero de philos es 0
+	if (!philo)
 		return (NULL);
 	while (i < n_philo)
 	{
         current_philo = new_philo();
 		if (!current_philo)
 			return (NULL);
-        philo_add_back(philo_list, current_philo);
+        philo_add_back(philo, current_philo);
         i++;
 	}
-    return (philo_list);
+    return (philo);
 }
 
 void	init_utils(t_utils *utils, int argc, char **argv)
 {
 	init_params(&utils->params, argc, argv);
-	utils->philo_list = init_philo(utils->params.n_philo);
-	if (!utils->philo_list)
+	utils->philo = init_philo(utils->params.n_philo);
+	if (!utils->philo)
 		exit (1);
 }

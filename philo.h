@@ -30,14 +30,16 @@ typedef struct s_params
 }	t_params;
 typedef struct s_philo
 {
-	pthread_t		philo;
+	pthread_t		thread;
 	pthread_mutex_t	fork;
+	int				status;
 	struct s_philo	*next;
 }	t_philo;
 typedef struct s_utils
 {
 	t_params	params;
-	t_philo		*philo_list;
+	t_philo		*philo;
+	int			eating;
 }	t_utils;
 void	init_utils(t_utils *utils, int argc, char **argv);
 t_philo	*init_philo(int n_philo);
@@ -45,5 +47,7 @@ void	init_params(t_params *params, int argc, char **argv);
 int		str_is_number(char *str);
 void	control_argv(int argc, char **argv);
 t_philo	*new_philo(void);
-void	philo_add_back(t_philo *philo_list, t_philo *new_philo);
+void	philo_add_back(t_philo *philo, t_philo *new_philo);
+void	*think(void *status);
+void	*eat(void *status);
 #endif

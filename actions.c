@@ -12,18 +12,16 @@
 
 #include "philo.h"
 
-void	*philo_sleep(void *utils)
+void	*think(void *status)
 {
+	*(int *)status = 1;
+	printf("is thinking\n");
+	return (NULL);
 }
 
-void	*philo_eat(void *utils)
+void	*eat(void *status)
 {
-}
-
-void	*philo_think(void *utils)
-{
-}
-
-void	*philo_take_fork(void *utils)
-{
+	printf("is eating\n");
+	*(int *)status = 2;
+	return (NULL);
 }
