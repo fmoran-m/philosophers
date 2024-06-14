@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include "libft/libft.h"
+# include <stdint.h>
 
 typedef struct s_params
 {
@@ -41,13 +41,17 @@ typedef struct s_utils
 	t_philo		*philo;
 	int			eating;
 }	t_utils;
-void	init_utils(t_utils *utils, int argc, char **argv);
+void  	init_utils(t_utils *utils, int argc, char **argv);
 t_philo	*init_philo(int n_philo);
-void	init_params(t_params *params, int argc, char **argv);
-int		str_is_number(char *str);
-void	control_argv(int argc, char **argv);
+void  	init_params(t_params *params, int argc, char **argv);
+int	  	str_is_number(char *str);
+void  	control_argv(int argc, char **argv);
 t_philo	*new_philo(void);
-void	philo_add_back(t_philo *philo, t_philo *new_philo);
-void	*think(void *status);
-void	*eat(void *status);
+void  	philo_add_back(t_philo *philo, t_philo *new_philo);
+void  	*think(void *status);
+void	  *eat(void *status);
+int     ft_atoi(const char *str);
+void	  *ft_calloc(size_t count, size_t size);
+void	  ft_putendl_fd(char *s, int fd);
+int     ft_strlen(char *str);
 #endif

@@ -28,7 +28,7 @@ t_philo *init_philo(int n_philo)
 {
     t_philo *current_philo;
     t_philo *philo;
-	int		i;
+    int		i;
 
 	i = 1;
 	philo = new_philo(); // Al loro si el numero de philos es 0
@@ -36,13 +36,13 @@ t_philo *init_philo(int n_philo)
 		return (NULL);
 	while (i < n_philo)
 	{
-        current_philo = new_philo();
+    current_philo = new_philo();
 		if (!current_philo)
 			return (NULL);
-        philo_add_back(philo, current_philo);
-        i++;
+    philo_add_back(philo, current_philo);
+    i++;
 	}
-    return (philo);
+  return (philo);
 }
 
 void	init_utils(t_utils *utils, int argc, char **argv)

@@ -12,13 +12,7 @@
 
 NAME = philo
 
-LIBFT = ./libft/libft.a
-
-LIBFTDIR = ./libft
-
 CC = cc
-
-LM = make -C
 
 INCLUDES = philo.h
 
@@ -28,23 +22,22 @@ SRC = main.c \
 		init.c \
 		lists_func.c \
 		actions.c \
-		utils.c
+		utils.c \
+		libft_functions.c
 
 OBJS = ${SRC:.c=.o}
 
 $(NAME): $(OBJS) $(INCLUDES)
 		$(LM) $(LIBFTDIR)
-		$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LIBFT) $(RLIB)
+		$(CC) -o $(NAME) $(CFLAGS) $(OBJS)
 
 all: $(NAME)
 
 clean:
 		$(RM) $(OBJS)
-		cd $(LIBFTDIR) && make clean
 
 fclean: clean
 		$(RM) $(NAME)
-		cd $(LIBFTDIR) && make fclean
 
 re: fclean all
 
