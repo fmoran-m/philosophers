@@ -12,10 +12,19 @@
 
 #include "philo.h"
 
+long int  get_current_time(void)
+{
+  struct timeval  time;
+  long int             miliseconds;
+
+  gettimeofday(&time, NULL);
+  miliseconds = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+  return (miliseconds);
+}
+
 t_philo	*new_philo(int index, t_utils *utils)
 {
 	t_philo	*philo;
-
 	philo = ft_calloc(1, sizeof(t_philo));
 	if (!philo)
 		return (NULL);
@@ -24,6 +33,8 @@ t_philo	*new_philo(int index, t_utils *utils)
   philo->time_sleep = utils->time_sleep;
   philo->time_die = utils->time_die;
   philo->must_eat = utils->must_eat;
+  philo->n_philo = utils->n_philo;
+  philo->ref_time = get_current_time();
 	philo->next = NULL;
 	return (philo);
 }

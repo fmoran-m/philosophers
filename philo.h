@@ -24,12 +24,15 @@ typedef struct s_philo
 {
 	pthread_t		    thread;
 	pthread_mutex_t	fork;
+	pthread_mutex_t	time_mutex;
 	int				      status;
   int             index;
+  int             n_philo;
 	int             time_die;
 	int             time_eat;
 	int             time_sleep;
 	int             must_eat;
+  int             ref_time;
 	struct s_philo	*next;
 }	t_philo;
 typedef struct s_utils
@@ -39,6 +42,7 @@ typedef struct s_utils
 	int time_eat;
 	int time_sleep;
 	int must_eat;
+  pthread_t death_control;
 	t_philo		*philo;
 }	t_utils;
 void  	init_utils(t_utils *utils, int argc, char **argv);
@@ -47,8 +51,6 @@ int	  	str_is_number(char *str);
 void  	control_argv(int argc, char **argv);
 t_philo	*new_philo(int index, t_utils *utils);
 void  	philo_add_back(t_philo *philo, t_philo *new_philo);
-void  	*think(void *status);
-void	  *eat(void *status);
 int     ft_atoi(const char *str);
 void	  *ft_calloc(size_t count, size_t size);
 void	  ft_putendl_fd(char *s, int fd);
@@ -56,4 +58,9 @@ int     ft_strlen(char *str);
 void    *philo_routine(void *utils);
 void    link_last_to_first(t_philo *philo);
 void    launch_threads(t_utils *utils);
+void    think(t_philo *pointer);
+void    eat(t_philo *pointer);
+void    philo_sleep(t_philo *pointer);
+long int  get_current_time(void);
+void  *is_dead(void *philo_list);
 #endif

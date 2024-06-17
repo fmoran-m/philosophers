@@ -30,7 +30,7 @@ t_philo *init_philo(int n_philo, t_utils *utils)
     int     i;
 
 	i = 1;
-	philo = new_philo(i, utils); // Al loro si el numero de philos es 0
+	philo = new_philo(i, utils);
 	if (!philo)
 		return (NULL);
   i++;
@@ -49,14 +49,15 @@ t_philo *init_philo(int n_philo, t_utils *utils)
 void  init_forks(t_utils *utils)
 {
   int i;
-  t_philo *head;
+  t_philo *list;
 
   i = 0;
-  head = utils->philo;
+  list = utils->philo;
   while (i < utils->n_philo)
   {
-    pthread_mutex_init(&head->fork, NULL);
-    head = head->next;
+    pthread_mutex_init(&list->fork, NULL);
+    pthread_mutex_init(&list->time_mutex, NULL);
+    list = list->next;
     i++;
   }
 }

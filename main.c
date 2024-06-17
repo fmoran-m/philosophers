@@ -16,9 +16,12 @@ void  launch_threads(t_utils *utils)
 {
   int i;
   t_philo *head;
+  t_philo *philo_list;
 
   i = 0;
+  philo_list = utils->philo;
   head = utils->philo;
+  pthread_create(&utils->death_control, NULL, is_dead, (void *)philo_list);
   while(i < utils->n_philo)
   {
     pthread_create(&utils->philo->thread, NULL, philo_routine, (void *)utils->philo);
