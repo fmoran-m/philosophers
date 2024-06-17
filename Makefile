@@ -21,9 +21,9 @@ CFLAGS = -Wall -Wextra -Werror
 SRC = main.c \
 		init.c \
 		lists_func.c \
-		actions.c \
 		utils.c \
-		libft_functions.c
+		libft_functions.c \
+		philo_routine.c
 
 OBJS = ${SRC:.c=.o}
 

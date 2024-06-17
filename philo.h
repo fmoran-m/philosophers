@@ -20,33 +20,32 @@
 # include <sys/time.h>
 # include <stdint.h>
 
-typedef struct s_params
+typedef struct s_philo
+{
+	pthread_t		    thread;
+	pthread_mutex_t	fork;
+	int				      status;
+  int             index;
+	int             time_die;
+	int             time_eat;
+	int             time_sleep;
+	int             must_eat;
+	struct s_philo	*next;
+}	t_philo;
+typedef struct s_utils
 {
 	int n_philo;
 	int time_die;
 	int time_eat;
 	int time_sleep;
 	int must_eat;
-}	t_params;
-typedef struct s_philo
-{
-	pthread_t		thread;
-	pthread_mutex_t	fork;
-	int				status;
-	struct s_philo	*next;
-}	t_philo;
-typedef struct s_utils
-{
-	t_params	params;
 	t_philo		*philo;
-	int			eating;
 }	t_utils;
 void  	init_utils(t_utils *utils, int argc, char **argv);
-t_philo	*init_philo(int n_philo);
-void  	init_params(t_params *params, int argc, char **argv);
+t_philo	*init_philo(int n_philo, t_utils *utils);
 int	  	str_is_number(char *str);
 void  	control_argv(int argc, char **argv);
-t_philo	*new_philo(void);
+t_philo	*new_philo(int index, t_utils *utils);
 void  	philo_add_back(t_philo *philo, t_philo *new_philo);
 void  	*think(void *status);
 void	  *eat(void *status);
@@ -54,4 +53,7 @@ int     ft_atoi(const char *str);
 void	  *ft_calloc(size_t count, size_t size);
 void	  ft_putendl_fd(char *s, int fd);
 int     ft_strlen(char *str);
+void    *philo_routine(void *utils);
+void    link_last_to_first(t_philo *philo);
+void    launch_threads(t_utils *utils);
 #endif

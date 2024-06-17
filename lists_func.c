@@ -12,13 +12,18 @@
 
 #include "philo.h"
 
-t_philo	*new_philo(void)
+t_philo	*new_philo(int index, t_utils *utils)
 {
 	t_philo	*philo;
 
 	philo = ft_calloc(1, sizeof(t_philo));
 	if (!philo)
 		return (NULL);
+  philo->index = index;
+  philo->time_eat = utils->time_eat;
+  philo->time_sleep = utils->time_sleep;
+  philo->time_die = utils->time_die;
+  philo->must_eat = utils->must_eat;
 	philo->next = NULL;
 	return (philo);
 }
