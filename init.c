@@ -71,9 +71,8 @@ void	init_utils(t_utils *utils, int argc, char **argv)
 	utils->must_eat = -1;
 	if (argc == 6)
 		utils->must_eat = ft_atoi(argv[5]);
+  utils->init_time = get_current_time();
 	utils->philo = init_philo(utils->n_philo, utils);
   init_forks(utils);
-	if (!utils->philo)
-		exit (1);
 }
 

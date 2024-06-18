@@ -24,12 +24,23 @@ void  launch_threads(t_utils *utils)
   pthread_create(&utils->death_control, NULL, is_dead, (void *)philo_list);
   while(i < utils->n_philo)
   {
-    pthread_create(&utils->philo->thread, NULL, philo_routine, (void *)utils->philo);
+    if (utils->philo->index % 2 == 0)
+      pthread_create(&utils->philo->thread, NULL, philo_routine, (void *)utils->philo);
+    utils->philo = utils->philo->next;
+    i++;
+  }
+  i = 0;
+  utils->philo = head;
+  usleep(100);
+  while(i < utils->n_philo)
+  {
+    if (utils->philo->index % 2 != 0)
+      pthread_create(&utils->philo->thread, NULL, philo_odd_routine, (void *)utils->philo);
     utils->philo = utils->philo->next;
     i++;
   }
   utils->philo = head;
- }
+}
 
 void  join_threads(t_utils *utils)
 {

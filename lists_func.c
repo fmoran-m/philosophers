@@ -15,7 +15,7 @@
 long int  get_current_time(void)
 {
   struct timeval  time;
-  long int             miliseconds;
+  long int        miliseconds;
 
   gettimeofday(&time, NULL);
   miliseconds = (time.tv_sec * 1000) + (time.tv_usec / 1000);
@@ -34,8 +34,9 @@ t_philo	*new_philo(int index, t_utils *utils)
   philo->time_die = utils->time_die;
   philo->must_eat = utils->must_eat;
   philo->n_philo = utils->n_philo;
-  philo->ref_time = get_current_time();
 	philo->next = NULL;
+  philo->init_time = utils->init_time;
+  philo->ref_time = utils->init_time;
 	return (philo);
 }
 

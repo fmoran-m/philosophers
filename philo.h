@@ -32,7 +32,8 @@ typedef struct s_philo
 	int             time_eat;
 	int             time_sleep;
 	int             must_eat;
-  int             ref_time;
+  long int        init_time;
+  long int        ref_time;
 	struct s_philo	*next;
 }	t_philo;
 typedef struct s_utils
@@ -42,6 +43,7 @@ typedef struct s_utils
 	int time_eat;
 	int time_sleep;
 	int must_eat;
+  long int init_time;
   pthread_t death_control;
 	t_philo		*philo;
 }	t_utils;
@@ -56,6 +58,7 @@ void	  *ft_calloc(size_t count, size_t size);
 void	  ft_putendl_fd(char *s, int fd);
 int     ft_strlen(char *str);
 void    *philo_routine(void *utils);
+void    *philo_odd_routine(void *arg);
 void    link_last_to_first(t_philo *philo);
 void    launch_threads(t_utils *utils);
 void    think(t_philo *pointer);
