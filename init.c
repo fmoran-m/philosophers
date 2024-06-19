@@ -53,10 +53,11 @@ void  init_forks(t_utils *utils)
 
   i = 0;
   list = utils->philo;
+  pthread_mutex_init(&utils->time_mutex, NULL);
   while (i < utils->n_philo)
   {
     pthread_mutex_init(&list->fork, NULL);
-    pthread_mutex_init(&list->time_mutex, NULL);
+    list->time_mutex = &utils->time_mutex;
     list = list->next;
     i++;
   }

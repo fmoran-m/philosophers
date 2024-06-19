@@ -24,7 +24,7 @@ typedef struct s_philo
 {
 	pthread_t		    thread;
 	pthread_mutex_t	fork;
-	pthread_mutex_t	time_mutex;
+	pthread_mutex_t	*time_mutex;
 	int				      status;
   int             index;
   int             n_philo;
@@ -45,6 +45,8 @@ typedef struct s_utils
 	int must_eat;
   long int init_time;
   pthread_t death_control;
+	pthread_mutex_t	time_mutex;
+	int				      status;
 	t_philo		*philo;
 }	t_utils;
 void  	init_utils(t_utils *utils, int argc, char **argv);
