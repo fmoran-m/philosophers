@@ -28,15 +28,16 @@ t_philo	*new_philo(int index, t_utils *utils)
 	philo = ft_calloc(1, sizeof(t_philo));
 	if (!philo)
 		return (NULL);
+  philo->stop_exec = 0;
   philo->index = index;
   philo->time_eat = utils->time_eat;
   philo->time_sleep = utils->time_sleep;
   philo->time_die = utils->time_die;
   philo->must_eat = utils->must_eat;
   philo->n_philo = utils->n_philo;
-	philo->next = NULL;
   philo->init_time = utils->init_time;
   philo->ref_time = utils->init_time;
+	philo->next = NULL;
 	return (philo);
 }
 

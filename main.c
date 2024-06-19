@@ -21,7 +21,7 @@ void  launch_threads(t_utils *utils)
   i = 0;
   philo_list = utils->philo;
   head = utils->philo;
-  pthread_create(&utils->death_control, NULL, is_dead, (void *)philo_list);
+  pthread_create(&utils->monitor, NULL, monitor, (void *)philo_list);
   while(i < utils->n_philo)
   {
     if (utils->philo->index % 2 == 0)

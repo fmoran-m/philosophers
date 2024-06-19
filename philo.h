@@ -25,6 +25,7 @@ typedef struct s_philo
 	pthread_t		    thread;
 	pthread_mutex_t	fork;
 	pthread_mutex_t	*time_mutex;
+	pthread_mutex_t	*exec_mutex;
 	int				      status;
   int             index;
   int             n_philo;
@@ -32,20 +33,22 @@ typedef struct s_philo
 	int             time_eat;
 	int             time_sleep;
 	int             must_eat;
+  int             stop_exec;
   long int        init_time;
   long int        ref_time;
 	struct s_philo	*next;
 }	t_philo;
 typedef struct s_utils
 {
-	int n_philo;
-	int time_die;
-	int time_eat;
-	int time_sleep;
-	int must_eat;
-  long int init_time;
-  pthread_t death_control;
+	int             n_philo;
+	int             time_die;
+	int             time_eat;
+	int             time_sleep;
+	int             must_eat;
+  long int        init_time;
+  pthread_t       monitor;
 	pthread_mutex_t	time_mutex;
+	pthread_mutex_t	exec_mutex;
 	int				      status;
 	t_philo		*philo;
 }	t_utils;
@@ -67,5 +70,5 @@ void    think(t_philo *pointer);
 void    eat(t_philo *pointer);
 void    philo_sleep(t_philo *pointer);
 long int  get_current_time(void);
-void  *is_dead(void *philo_list);
+void  *monitor(void *philo_list);
 #endif
