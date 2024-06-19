@@ -46,11 +46,17 @@ void  eat(t_philo *pointer)
   long int  time;
   long int  milisec;
 
-  pthread_mutex_lock(&pointer->fork);
+  if (pointer->index % 2 == 0)
+    pthread_mutex_lock(&pointer->fork);
+  else
+    pthread_mutex_lock(&pointer->next->fork);
   time = get_current_time();
   milisec = time - pointer->init_time;
   printf("%ld %d has taken a fork\n", milisec, pointer->index);
-  pthread_mutex_lock(&pointer->next->fork);
+  if (pointer->index % 2 == 0)
+    pthread_mutex_lock(&pointer->next->fork);
+  else
+    pthread_mutex_lock(&pointer->fork);
   time = get_current_time();
   milisec = time - pointer->init_time;
   printf("%ld %d has taken a fork\n", milisec, pointer->index);
@@ -84,7 +90,7 @@ void  *philo_odd_routine(void *arg)
     think(pointer);
     eat(pointer);
     philo_sleep(pointer);
-    usleep(10);
+    usleep((pointer->time_sleep / 3) * 1000);
   }
   return (NULL);
 }
@@ -98,6 +104,7 @@ void  *philo_routine(void *arg)
   {
     eat(pointer);
     philo_sleep(pointer);
+    usleep((pointer->time_sleep / 3) * 1000);
     think(pointer);
   }
   return (NULL);
