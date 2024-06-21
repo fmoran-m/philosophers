@@ -33,7 +33,7 @@ typedef struct s_philo
 	int             time_eat;
 	int             time_sleep;
 	int             must_eat;
-  int             stop_exec;
+  int             *stop_exec;
   long int        init_time;
   long int        ref_time;
 	struct s_philo	*next;
@@ -45,6 +45,7 @@ typedef struct s_utils
 	int             time_eat;
 	int             time_sleep;
 	int             must_eat;
+  int             stop_exec;
   long int        init_time;
   pthread_t       monitor;
 	pthread_mutex_t	time_mutex;
@@ -71,4 +72,5 @@ void    eat(t_philo *pointer);
 void    philo_sleep(t_philo *pointer);
 long int  get_current_time(void);
 void  *monitor(void *philo_list);
+void	ft_putnbr_fd(long int n, int fd);
 #endif

@@ -28,7 +28,7 @@ t_philo	*new_philo(int index, t_utils *utils)
 	philo = ft_calloc(1, sizeof(t_philo));
 	if (!philo)
 		return (NULL);
-  philo->stop_exec = 0;
+  philo->stop_exec = &utils->stop_exec;
   philo->index = index;
   philo->time_eat = utils->time_eat;
   philo->time_sleep = utils->time_sleep;

@@ -16,14 +16,15 @@ CC = cc
 
 INCLUDES = philo.h
 
-CFLAGS = -fsanitize=thread -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 SRC = main.c \
 		init.c \
 		lists_func.c \
 		utils.c \
 		libft_functions.c \
-		philo_routine.c
+		philo_routine.c \
+		ft_putnbr.c
 
 OBJS = ${SRC:.c=.o}
 

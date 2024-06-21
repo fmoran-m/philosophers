@@ -1,20 +1,49 @@
 #include "philo.h"
 
-int is_dead(t_philo *philo_list)
+int  loop_condition(t_philo *philo)
+{
+  pthread_mutex_lock(philo->exec_mutex);
+  if (*philo->stop_exec)
+  {
+    pthread_mutex_unlock(philo->exec_mutex);
+    return(0);
+  }
+  pthread_mutex_unlock(philo->exec_mutex);
+  return(1);
+}
+
+void  print_on_thread(int long milisec, int index, char *str, t_philo *pointer)
+{
+  if (loop_condition(pointer))
+    printf("%ld %d %s\n", milisec, index, str);
+}
+
+void  updt_status(t_utils *utils)
+{
+  pthread_mutex_lock(&utils->exec_mutex);
+  utils->stop_exec = 1;
+  pthread_mutex_unlock(&utils->exec_mutex);
+}
+
+int is_dead(t_utils *utils)
 {
   long int current_time;
   long int milisec;
+  t_philo *philo_list;
   int i;
 
   i = 0;
+  philo_list = utils->philo;
   while(i < philo_list->n_philo)
   {
     current_time = get_current_time();
     milisec = current_time - philo_list->init_time;
     pthread_mutex_lock(philo_list->time_mutex);
-    if ((current_time - philo_list->ref_time) > philo_list->time_die)
+    if ((current_time - philo_list->ref_time) >= philo_list->time_die)
     {
-      printf("%ld %d died\n", milisec, philo_list->index);
+      updt_status(utils);
+      printf("%ld %d has died\n", milisec, philo_list->index);
+      pthread_mutex_unlock(philo_list->time_mutex);
       return (1);
     }
     pthread_mutex_unlock(philo_list->time_mutex);
@@ -24,33 +53,15 @@ int is_dead(t_philo *philo_list)
   return (0);
 }
 
-void  updt_status(t_philo *philo_list)
-{
-  int i;
-
-  i = 0;
-  pthread_mutex_lock(philo_list->exec_mutex);
-  while(i < philo_list->n_philo)
-  {
-    philo_list->stop_exec = 1;
-    philo_list = philo_list->next;
-    i++;
-  }
-  pthread_mutex_unlock(philo_list->exec_mutex);
-}
-
 void  *monitor(void *arg)
 {
-  t_philo *philo_list;
+  t_utils *utils;
 
-  philo_list = (t_philo *)arg;
+  utils = (t_utils *)arg;
   while(1)
   {
-    if (is_dead(philo_list))
-    {
-      updt_status(philo_list);
-      return (NULL);
-    }
+    if (is_dead(utils))
+      break;
   }
   return (NULL);
 }
@@ -62,7 +73,7 @@ void think(t_philo *pointer)
 
   time = get_current_time();
   milisec = time - pointer->init_time;
-  printf("%ld %d is thinking\n", milisec, pointer->index);
+  print_on_thread(milisec, pointer->index, "is thinking", pointer);
   if (pointer->n_philo % 2 != 0)
     usleep((pointer->time_sleep / 3) * 1000);
 }
@@ -78,29 +89,17 @@ void  eat(t_philo *pointer)
     pthread_mutex_lock(&pointer->next->fork);
   time = get_current_time();
   milisec = time - pointer->init_time;
-  pthread_mutex_lock(pointer->exec_mutex);
-  if (pointer->stop_exec)
-    return ;
-  pthread_mutex_unlock(pointer->exec_mutex);
-  printf("%ld %d has taken a fork\n", milisec, pointer->index);
+  print_on_thread(milisec, pointer->index, "has taken a fork", pointer);
   if (pointer->index % 2 == 0)
     pthread_mutex_lock(&pointer->next->fork);
   else
     pthread_mutex_lock(&pointer->fork);
   time = get_current_time();
   milisec = time - pointer->init_time;
-  pthread_mutex_lock(pointer->exec_mutex);
-  if (pointer->stop_exec)
-    return ;
-  pthread_mutex_unlock(pointer->exec_mutex);
-  printf("%ld %d has taken a fork\n", milisec, pointer->index);
+  print_on_thread(milisec, pointer->index, "has taken a fork", pointer);
   time = get_current_time();
   milisec = time - pointer->init_time;
-  pthread_mutex_lock(pointer->exec_mutex);
-  if (pointer->stop_exec)
-    return ;
-  pthread_mutex_unlock(pointer->exec_mutex);
-  printf("%ld %d is eating\n", milisec, pointer->index);
+  print_on_thread(milisec, pointer->index, "is eating", pointer);
   pthread_mutex_lock(pointer->time_mutex);
   pointer->ref_time = time;
   pthread_mutex_unlock(pointer->time_mutex);
@@ -116,7 +115,7 @@ void  philo_sleep(t_philo *pointer)
 
   time = get_current_time();
   milisec = time - pointer->init_time;
-  printf("%ld %d is sleeping\n", milisec, pointer->index);
+  print_on_thread(milisec, pointer->index, "is sleeping", pointer);
   usleep(pointer->time_sleep * 1000);
 }
 
@@ -125,22 +124,10 @@ void  *philo_odd_routine(void *arg)
   t_philo *pointer;
 
   pointer = (t_philo *)arg;
-  while (1)
+  while (loop_condition(pointer))
   {
-    pthread_mutex_lock(pointer->exec_mutex);
-    if (pointer->stop_exec)
-      break;
-    pthread_mutex_unlock(pointer->exec_mutex);
     think(pointer);
-    pthread_mutex_lock(pointer->exec_mutex);
-    if (pointer->stop_exec)
-      break;
-    pthread_mutex_unlock(pointer->exec_mutex);
     eat(pointer);
-    pthread_mutex_lock(pointer->exec_mutex);
-    if (pointer->stop_exec)
-        break;
-    pthread_mutex_unlock(pointer->exec_mutex);
     philo_sleep(pointer);
   }
   return (NULL);
@@ -151,22 +138,10 @@ void  *philo_routine(void *arg)
   t_philo *pointer;
 
   pointer = (t_philo *)arg;
-  while (1)
+  while (loop_condition(pointer))
   {
-    pthread_mutex_lock(pointer->exec_mutex);
-    if (pointer->stop_exec)
-      break;
-    pthread_mutex_unlock(pointer->exec_mutex);
     eat(pointer);
-    pthread_mutex_lock(pointer->exec_mutex);
-    if (pointer->stop_exec)
-      break;
-    pthread_mutex_unlock(pointer->exec_mutex);
     philo_sleep(pointer);
-    pthread_mutex_lock(pointer->exec_mutex);
-    if (pointer->stop_exec)
-      break;
-    pthread_mutex_unlock(pointer->exec_mutex);
     think(pointer);
   }
   return (NULL);

@@ -16,12 +16,8 @@ void  launch_threads(t_utils *utils)
 {
   int i;
   t_philo *head;
-  t_philo *philo_list;
-
   i = 0;
-  philo_list = utils->philo;
   head = utils->philo;
-  pthread_create(&utils->monitor, NULL, monitor, (void *)philo_list);
   while(i < utils->n_philo)
   {
     if (utils->philo->index % 2 == 0)
@@ -40,6 +36,7 @@ void  launch_threads(t_utils *utils)
     i++;
   }
   utils->philo = head;
+  pthread_create(&utils->monitor, NULL, monitor, (void *)utils);
 }
 
 void  join_threads(t_utils *utils)
@@ -47,9 +44,25 @@ void  join_threads(t_utils *utils)
   int i;
 
   i = 0;
+  pthread_join(utils->monitor, NULL);
   while (i < utils->n_philo)
   {
     pthread_join(utils->philo->thread, NULL);
+    utils->philo = utils->philo->next;
+    i++;
+  }
+}
+
+void  destroy_mutex(t_utils *utils)
+{
+  int i;
+
+  i = 0;
+  pthread_mutex_destroy(&utils->time_mutex);
+  pthread_mutex_destroy(&utils->exec_mutex);
+  while (i < utils->n_philo)
+  {
+    pthread_mutex_destroy(&utils->philo->fork);
     utils->philo = utils->philo->next;
     i++;
   }
@@ -63,5 +76,6 @@ int	main(int argc, char **argv)
 	init_utils(&utils, argc, argv);
   launch_threads(&utils);
   join_threads(&utils);
+  destroy_mutex(&utils);
 	return (0);
 }
