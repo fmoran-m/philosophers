@@ -27,11 +27,11 @@ void  launch_threads(t_utils *utils)
   }
   i = 0;
   utils->philo = head;
-  usleep(100);
+  usleep(10);
   while(i < utils->n_philo)
   {
     if (utils->philo->index % 2 != 0)
-      pthread_create(&utils->philo->thread, NULL, philo_odd_routine, (void *)utils->philo);
+      pthread_create(&utils->philo->thread, NULL, philo_routine, (void *)utils->philo);
     utils->philo = utils->philo->next;
     i++;
   }
@@ -59,7 +59,8 @@ void  destroy_mutex(t_utils *utils)
 
   i = 0;
   pthread_mutex_destroy(&utils->time_mutex);
-  pthread_mutex_destroy(&utils->exec_mutex);
+  pthread_mutex_destroy(&utils->status_mutex);
+  pthread_mutex_destroy(&utils->print_mutex);
   while (i < utils->n_philo)
   {
     pthread_mutex_destroy(&utils->philo->fork);
