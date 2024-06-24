@@ -139,6 +139,14 @@ void  eat(t_philo *pointer)
   pthread_mutex_unlock(&pointer->next->fork);
 }
 
+void  eat_one(t_philo *pointer)
+{
+  pthread_mutex_lock(&pointer->fork);
+  print_on_thread(pointer->index, "has taken a fork", pointer);
+  usleep((pointer->time_sleep * 1000));
+  pthread_mutex_unlock(&pointer->fork);
+}
+
 void  philo_sleep(t_philo *pointer)
 {
   print_on_thread(pointer->index, "is sleeping", pointer);
@@ -150,11 +158,17 @@ void  *philo_routine(void *arg)
   t_philo *pointer;
 
   pointer = (t_philo *)arg;
-  if (pointer->index % 2 != 0)
+  if (pointer->index % 2 != 0 && pointer->n_philo > 1)
     think(pointer);
   while (loop_condition(pointer))
   {
-    eat(pointer);
+    if (pointer->n_philo == 1)
+    {
+      eat_one(pointer);
+      return (NULL);
+    }
+    else
+      eat(pointer);
     philo_sleep(pointer);
     think(pointer);
   }
