@@ -32,8 +32,9 @@ typedef struct s_philo
 	int             time_die;
 	int             time_eat;
 	int             time_sleep;
-	int             must_eat;
+	int             *must_eat;
   int             *stop_exec;
+  int             n_eat;
   long int        init_time;
   long int        ref_time;
 	struct s_philo	*next;
@@ -56,7 +57,7 @@ typedef struct s_utils
 void  	init_utils(t_utils *utils, int argc, char **argv);
 t_philo	*init_philo(int n_philo, t_utils *utils);
 int	  	str_is_number(char *str);
-void  	control_argv(int argc, char **argv);
+int  	control_argv(int argc, char **argv);
 t_philo	*new_philo(int index, t_utils *utils);
 void  	philo_add_back(t_philo *philo, t_philo *new_philo);
 int     ft_atoi(const char *str);

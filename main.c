@@ -73,7 +73,8 @@ int	main(int argc, char **argv)
 {
 	t_utils	utils;
 
-	control_argv(argc, argv);
+	if(!control_argv(argc, argv))
+    return (1);
 	init_utils(&utils, argc, argv);
   launch_threads(&utils);
   join_threads(&utils);

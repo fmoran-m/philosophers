@@ -33,10 +33,11 @@ t_philo	*new_philo(int index, t_utils *utils)
   philo->time_eat = utils->time_eat;
   philo->time_sleep = utils->time_sleep;
   philo->time_die = utils->time_die;
-  philo->must_eat = utils->must_eat;
+  philo->must_eat = &utils->must_eat;
   philo->n_philo = utils->n_philo;
   philo->init_time = utils->init_time;
   philo->ref_time = utils->init_time;
+  philo->n_eat = 0;
 	philo->next = NULL;
 	return (philo);
 }

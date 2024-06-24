@@ -37,29 +37,60 @@ void  updt_status(t_utils *utils)
   pthread_mutex_unlock(&utils->status_mutex);
 }
 
+int count_meals(t_philo *philo)
+{
+  int i;
+  int counter;
+
+  i = 0;
+  counter = 0;
+  while (i < philo->n_philo)
+  {
+    if (philo->n_eat >= *philo->must_eat && *philo->must_eat != -1)
+      counter++;
+    philo = philo->next;
+    i++;
+  }
+  if (counter == philo->n_philo)
+    return (1);
+  else 
+    return (0);
+}
+
+int  check_status(t_philo *philo)
+{
+  int flag;
+
+  flag = 0;
+  pthread_mutex_lock(philo->time_mutex);
+  if (get_current_time() - philo->ref_time >= philo->time_die)
+    flag = 1;
+  if (count_meals(philo) && *philo->must_eat != -1)
+    flag = 2;
+  pthread_mutex_unlock(philo->time_mutex);
+  return (flag);
+}
+
 int is_dead(t_utils *utils)
 {
-  long int current_time;
   long int milisec;
   t_philo *philo_list;
-  int i;
+  int     flag;
+  int     i;
 
   i = 0;
   philo_list = utils->philo;
   while(i < philo_list->n_philo)
   {
-    current_time = get_current_time();
-    milisec = current_time - philo_list->init_time;
-    pthread_mutex_lock(philo_list->time_mutex);
-    if ((current_time - philo_list->ref_time) >= philo_list->time_die)
+    flag = check_status(philo_list);
+    if (flag > 0)
     {
-      pthread_mutex_unlock(philo_list->time_mutex);
       updt_status(utils);
-      printf("%ld %d died\n", milisec, philo_list->index);
+      milisec = get_current_time() - philo_list->init_time;
+      if (flag == 1)
+        printf("%ld %d died\n", milisec, philo_list->index);
       return (1);
     }
-    pthread_mutex_unlock(philo_list->time_mutex);
-    philo_list = philo_list->next;
     i++;
   }
   return (0);
@@ -100,6 +131,8 @@ void  eat(t_philo *pointer)
   print_on_thread(pointer->index, "is eating", pointer);
   pthread_mutex_lock(pointer->time_mutex);
   pointer->ref_time = get_current_time();
+  if (*pointer->must_eat != -1)
+    pointer->n_eat++;
   pthread_mutex_unlock(pointer->time_mutex);
   usleep(pointer->time_eat * 1000);
   pthread_mutex_unlock(&pointer->fork);

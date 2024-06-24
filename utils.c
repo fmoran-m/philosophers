@@ -16,33 +16,38 @@ int	str_is_number(char *str)
 {
 	int	i;
 
-	i = -1;
-	while (str[i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (0);
+	i = 0;
+  while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+    i++;
+  if (str[i] == '+')
+    i++;
+	while (str[i] >= '0' && str[i] <= '9')
 		i++;
-	}
+  while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+    i++;
+  if (str[i])
+    return (0);
 	return (1);
 }
 
-void	control_argv(int argc, char **argv)
+int control_argv(int argc, char **argv)
 {
 	int	i;
 
-	i = 0;
-	if (argc < 4 || argc > 6)
+	i = 1;
+	if (argc != 5 && argc != 6)
 	{
-		ft_putendl_fd("Incorrect number of arguments", STDERR_FILENO);
-		exit (0);
+		ft_putendl_fd("Error: Incorrect number of arguments", STDERR_FILENO);
+    return (0);
 	}
-	while (argv[i])
+	while (i < argc)
 	{
 		if (!str_is_number(argv[i]) || !*argv[i])
 		{
-			ft_putendl_fd("Incorrect format", STDERR_FILENO);
-			exit (0);
+			ft_putendl_fd("Error: Incorrect format", STDERR_FILENO);
+      return (0);
 		}
 		i++;
 	}
+  return (1);
 }
