@@ -41,7 +41,7 @@ void	launch_threads(t_utils *utils)
 	utils->philo = head;
 }
 
-void	join_threads(t_utils *utils)
+void	detach_threads(t_utils *utils)
 {
 	int	i;
 
@@ -92,22 +92,20 @@ int	main(int argc, char **argv)
 
 	if (!control_argv(argc, argv))
 		return (1);
-	init_utils(&utils, argc, argv);
 	if (utils.n_philo <= 0)
 	{
 		ft_putendl_fd("Error: At least 1 philo needed to start the simulation",
 			2);
-		destroy_mutex(&utils);
-		free_resources(&utils);
 		return (1);
 	}
+	init_utils(&utils, argc, argv);
 	if (utils.n_philo == 1)
 		pthread_create(&utils.philo->thread, NULL, philo_routine,
 			(void *)utils.philo);
 	else
 		launch_threads(&utils);
 	monitor(&utils);
-	join_threads(&utils);
+	detach_threads(&utils);
 	destroy_mutex(&utils);
 	// free_resources(&utils);
 	return (0);
