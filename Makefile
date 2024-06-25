@@ -16,7 +16,7 @@ CC = cc
 
 INCLUDES = philo.h
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -fsanitize=thread -Wall -Wextra -Werror
 
 SRC = main.c \
 		init.c \

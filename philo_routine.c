@@ -91,6 +91,7 @@ int is_dead(t_utils *utils)
         printf("%ld %d died\n", milisec, philo_list->index);
       return (1);
     }
+    philo_list = philo_list->next;
     i++;
   }
   return (0);
