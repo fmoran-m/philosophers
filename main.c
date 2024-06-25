@@ -6,81 +6,11 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:08:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/25 18:56:27 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/25 20:14:06 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static int  join_even_threads(t_philo *philo, int limiter)
-{
-	int		i;
-	t_philo *head;
-
-	i = 0;
-	head = philo;
-	while (i < limiter && philo->index % 2 == 0)
-	{
-		pthread_join(philo->thread, NULL);
-		philo = philo->next;
-		i++;
-	}
-	philo = head;
-	return (0);
-}
-
-static int  join_mid_threads(t_philo *philo, int limiter)
-{
-	int		i;
-	t_philo *head;
-
-	i = 0;
-	head = philo;
-	while (i < limiter)
-	{
-		pthread_join(philo->thread, NULL);
-		philo = philo->next;
-		i++;
-	}
-	philo = head;
-	return (0);
-}
-
-int launch_threads(t_utils *utils)
-{
-	int		i;
-	t_philo	*head;
-
-	i = 0;
-	head = utils->philo;
-	while (i < utils->n_philo)
-	{
-		if (utils->philo->index % 2 == 0)
-        {
-			if (pthread_create(&utils->philo->thread, NULL, philo_routine,
-				(void *)utils->philo) != 0)
-                return (join_even_threads(head, i));
-        }
-		utils->philo = utils->philo->next;
-		i++;
-	}
-	i = 0;
-	utils->philo = head;
-	usleep(10);
-	while (i < utils->n_philo)
-	{
-		if (utils->philo->index % 2 != 0)
-		{
-			if (pthread_create(&utils->philo->thread, NULL, philo_routine,
-				(void *)utils->philo) != 0)
-				return (join_mid_threads(head, i));
-		}
-		utils->philo = utils->philo->next;
-		i++;
-	}
-	utils->philo = head;
-    return (1);
-}
 
 static void	join_threads(t_utils *utils)
 {
@@ -95,7 +25,7 @@ static void	join_threads(t_utils *utils)
 	}
 }
 
-void	destroy_mutex(t_utils *utils)
+static void	destroy_mutex(t_utils *utils)
 {
 	int	i;
 
@@ -143,7 +73,7 @@ int	main(int argc, char **argv)
 	}
 	else
 	{
-		if (!launch_threads(&utils))
+		if (!start_threads(&utils))
 			return(destroy_mutex(&utils), free_resources(&utils), 1);
 	}
 	monitor(&utils);

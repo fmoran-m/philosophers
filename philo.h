@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:13:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/25 18:36:54 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/25 21:01:54 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,16 @@ int					ft_strlen(char *str);
 void				*philo_routine(void *utils);
 void				*philo_odd_routine(void *arg);
 void				link_last_to_first(t_philo *philo);
-int			    	launch_threads(t_utils *utils);
+int			    	start_threads(t_utils *utils);
 void				think(t_philo *pointer);
 void				eat(t_philo *pointer);
+void				eat_one(t_philo *pointer);
 void				philo_sleep(t_philo *pointer);
 long int			get_current_time(void);
 void				*monitor(void *philo_list);
 void				ft_putnbr_fd(long int n, int fd);
 void                free_resources(t_utils *utils);
+int					init_forks(t_utils *utils);
+void				*monitor(void *arg);
+void				print_on_thread(int index, char *str, t_philo *pointer);
 #endif
