@@ -6,13 +6,47 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:08:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/25 16:45:31 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:22:25 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	launch_threads(t_utils *utils)
+static int  join_even_threads(t_philo *philo, int limiter)
+{
+	int		i;
+	t_philo *head;
+
+	i = 0;
+	head = philo;
+	while (i < limiter && philo->index % 2 == 0)
+	{
+		pthread_join(philo->thread, NULL);
+		philo = philo->next;
+		i++;
+	}
+	philo = head;
+	return (0);
+}
+
+static int  join_mid_threads(t_philo *philo, int limiter)
+{
+	int		i;
+	t_philo *head;
+
+	i = 0;
+	head = philo;
+	while (i < limiter)
+	{
+		pthread_join(philo->thread, NULL);
+		philo = philo->next;
+		i++;
+	}
+	philo = head;
+	return (0);
+}
+
+int launch_threads(t_utils *utils)
 {
 	int		i;
 	t_philo	*head;
@@ -22,8 +56,11 @@ void	launch_threads(t_utils *utils)
 	while (i < utils->n_philo)
 	{
 		if (utils->philo->index % 2 == 0)
-			pthread_create(&utils->philo->thread, NULL, philo_routine,
-				(void *)utils->philo);
+        {
+			if (pthread_create(&utils->philo->thread, NULL, philo_routine,
+				(void *)utils->philo) == -1)
+                return (join_even_threads(head, i));
+        }
 		utils->philo = utils->philo->next;
 		i++;
 	}
@@ -33,22 +70,26 @@ void	launch_threads(t_utils *utils)
 	while (i < utils->n_philo)
 	{
 		if (utils->philo->index % 2 != 0)
-			pthread_create(&utils->philo->thread, NULL, philo_routine,
-				(void *)utils->philo);
+		{
+			if (pthread_create(&utils->philo->thread, NULL, philo_routine,
+				(void *)utils->philo) == -1)
+				return (join_mid_threads(head, i));
+		}
 		utils->philo = utils->philo->next;
 		i++;
 	}
 	utils->philo = head;
+    return (1);
 }
 
-void	detach_threads(t_utils *utils)
+static void	join_threads(t_utils *utils)
 {
 	int	i;
 
 	i = 0;
 	while (i < utils->n_philo)
 	{
-		pthread_detach(utils->philo->thread);
+		pthread_join(utils->philo->thread, NULL);
 		utils->philo = utils->philo->next;
 		i++;
 	}
@@ -98,10 +139,13 @@ int	main(int argc, char **argv)
 		pthread_create(&utils.philo->thread, NULL, philo_routine,
 			(void *)utils.philo);
 	else
-		launch_threads(&utils);
+	{
+		if (!launch_threads(&utils))
+			return(destroy_mutex(&utils), free_resources(&utils), 1);
+	}
 	monitor(&utils);
-	detach_threads(&utils);
+	join_threads(&utils);
 	destroy_mutex(&utils);
-	// free_resources(&utils);
+	free_resources(&utils);
 	return (0);
 }

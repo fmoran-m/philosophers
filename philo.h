@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:13:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/25 16:37:15 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:11:59 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_philo //CAMBIAR INTS POR LONG INTS
 	int				*must_eat; //BIEN
 	int				*stop_exec; //BIEN
 	long int		init_time; //BIEN
-	long int		ref_time; //POR PUNTERO?
+	long int		ref_time;
 	struct s_philo	*next;
 }					t_philo;
 typedef struct s_utils
@@ -67,7 +67,7 @@ int					ft_strlen(char *str);
 void				*philo_routine(void *utils);
 void				*philo_odd_routine(void *arg);
 void				link_last_to_first(t_philo *philo);
-void				launch_threads(t_utils *utils);
+int			    	launch_threads(t_utils *utils);
 void				think(t_philo *pointer);
 void				eat(t_philo *pointer);
 void				philo_sleep(t_philo *pointer);
