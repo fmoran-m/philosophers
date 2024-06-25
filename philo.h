@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:13:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/25 18:11:59 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:36:54 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ typedef struct s_philo //CAMBIAR INTS POR LONG INTS
 	pthread_mutex_t	*time_mutex;
 	pthread_mutex_t	*status_mutex;
 	pthread_mutex_t	*print_mutex;
-	int				index; //BIEN
-	int				n_philo; //BIEN
-	long int		time_die; //BIEN
-	long int		time_eat; //BIEN
-	long int		time_sleep; //BIEN
-	int				n_eat; //BIEN
-	int				*must_eat; //BIEN
-	int				*stop_exec; //BIEN
-	long int		init_time; //BIEN
+	int				index;
+	int				n_philo;
+	long int		time_die;
+	long int		time_eat;
+	long int		time_sleep;
+	int				n_eat;
+	int				*must_eat;
+	int				*stop_exec;
+	long int		init_time;
 	long int		ref_time;
 	struct s_philo	*next;
 }					t_philo;

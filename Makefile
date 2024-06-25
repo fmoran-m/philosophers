@@ -6,7 +6,7 @@
 #    By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/10 18:09:40 by fmoran-m          #+#    #+#              #
-#    Updated: 2024/06/19 19:34:16 by fmoran-m         ###   ########.fr        #
+#    Updated: 2024/06/25 18:34:12 by fmoran-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = cc
 
 INCLUDES = philo.h
 
-CFLAGS = -fsanitize=address -Wall -Wextra -Werror
+CFLAGS = -fsanitize=thread -Wall -Wextra -Werror
 
 SRC = main.c \
 		init.c \

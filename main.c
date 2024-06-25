@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:08:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/25 18:22:25 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:41:47 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int launch_threads(t_utils *utils)
 		if (utils->philo->index % 2 == 0)
         {
 			if (pthread_create(&utils->philo->thread, NULL, philo_routine,
-				(void *)utils->philo) == -1)
+				(void *)utils->philo) != 0)
                 return (join_even_threads(head, i));
         }
 		utils->philo = utils->philo->next;
@@ -72,7 +72,7 @@ int launch_threads(t_utils *utils)
 		if (utils->philo->index % 2 != 0)
 		{
 			if (pthread_create(&utils->philo->thread, NULL, philo_routine,
-				(void *)utils->philo) == -1)
+				(void *)utils->philo) != 0)
 				return (join_mid_threads(head, i));
 		}
 		utils->philo = utils->philo->next;
@@ -136,8 +136,11 @@ int	main(int argc, char **argv)
 	if (!init_utils(&utils, argc, argv))
         return (1);
 	if (utils.n_philo == 1)
-		pthread_create(&utils.philo->thread, NULL, philo_routine,
-			(void *)utils.philo);
+	{
+		if (pthread_create(&utils.philo->thread, NULL, philo_routine,
+			(void *)utils.philo) != 0)
+			return(destroy_mutex(&utils), free_resources(&utils), 1);
+	}
 	else
 	{
 		if (!launch_threads(&utils))
