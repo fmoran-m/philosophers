@@ -68,13 +68,13 @@ int	main(int argc, char **argv)
 	if (utils.n_philo == 1)
 	{
 		if (pthread_create(&utils.philo->thread, NULL, philo_routine,
-			(void *)utils.philo) != 0)
-			return(destroy_mutex(&utils), free_resources(&utils), 1);
+				(void *)utils.philo) != 0)
+			return (destroy_mutex(&utils), free_resources(&utils), 1);
 	}
 	else
 	{
 		if (!start_threads(&utils))
-			return(destroy_mutex(&utils), free_resources(&utils), 1);
+			return (destroy_mutex(&utils), free_resources(&utils), 1);
 	}
 	monitor(&utils);
 	join_threads(&utils);

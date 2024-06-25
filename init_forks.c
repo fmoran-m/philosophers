@@ -14,13 +14,13 @@
 
 static int	free_partial_mutex(t_utils *utils, t_philo *philo, int limit)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	pthread_mutex_destroy(&utils->time_mutex);
 	pthread_mutex_destroy(&utils->status_mutex);
 	pthread_mutex_destroy(&utils->print_mutex);
-	while(i < limit)
+	while (i < limit)
 	{
 		pthread_mutex_destroy(&philo->fork);
 		philo = philo->next;
@@ -49,7 +49,7 @@ int	init_forks(t_utils *utils)
 	{
 		if (pthread_mutex_init(&list->fork, NULL) != 0)
 			return (free_partial_mutex(utils, head, i));
-	    list->time_mutex = &utils->time_mutex;
+		list->time_mutex = &utils->time_mutex;
 		list->status_mutex = &utils->status_mutex;
 		list->print_mutex = &utils->print_mutex;
 		list = list->next;

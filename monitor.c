@@ -47,7 +47,7 @@ static int	check_status(t_philo *philo)
 	pthread_mutex_lock(philo->time_mutex);
 	if (get_current_time() - philo->ref_time >= philo->time_die)
 		flag = 1;
-	if (count_meals(philo) && *philo->must_eat != -1) //Mirar else if
+	else if (count_meals(philo) && *philo->must_eat != -1)
 		flag = 2;
 	pthread_mutex_unlock(philo->time_mutex);
 	return (flag);

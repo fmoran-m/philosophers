@@ -12,10 +12,10 @@
 
 #include "philo.h"
 
-static int  join_even_threads(t_philo *philo, int limiter)
+static int	join_even_threads(t_philo *philo, int limiter)
 {
 	int		i;
-	t_philo *head;
+	t_philo	*head;
 
 	i = 0;
 	head = philo;
@@ -29,10 +29,10 @@ static int  join_even_threads(t_philo *philo, int limiter)
 	return (0);
 }
 
-static int  join_mid_threads(t_philo *philo, int limiter)
+static int	join_mid_threads(t_philo *philo, int limiter)
 {
 	int		i;
-	t_philo *head;
+	t_philo	*head;
 
 	i = 0;
 	head = philo;
@@ -56,11 +56,11 @@ static int	start_even(t_utils *utils)
 	while (i < utils->n_philo)
 	{
 		if (utils->philo->index % 2 == 0)
-        {
+		{
 			if (pthread_create(&utils->philo->thread, NULL, philo_routine,
-				(void *)utils->philo) != 0)
-                return (join_even_threads(head, i));
-        }
+					(void *)utils->philo) != 0)
+				return (join_even_threads(head, i));
+		}
 		utils->philo = utils->philo->next;
 		i++;
 	}
@@ -80,7 +80,7 @@ static int	start_odd(t_utils *utils)
 		if (utils->philo->index % 2 != 0)
 		{
 			if (pthread_create(&utils->philo->thread, NULL, philo_routine,
-				(void *)utils->philo) != 0)
+					(void *)utils->philo) != 0)
 				return (join_mid_threads(head, i));
 		}
 		utils->philo = utils->philo->next;
@@ -90,12 +90,12 @@ static int	start_odd(t_utils *utils)
 	return (1);
 }
 
-int start_threads(t_utils *utils)
+int	start_threads(t_utils *utils)
 {
 	if (!start_even(utils))
 		return (0);
 	usleep(10);
 	if (!start_odd(utils))
 		return (0);
-    return (1);
+	return (1);
 }
