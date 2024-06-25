@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:13:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/10 20:46:25 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:37:15 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,31 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-typedef struct s_philo
+typedef struct s_philo //CAMBIAR INTS POR LONG INTS
 {
-	pthread_t		thread;
+	pthread_t		thread; 
 	pthread_mutex_t	fork;
 	pthread_mutex_t	*time_mutex;
 	pthread_mutex_t	*status_mutex;
 	pthread_mutex_t	*print_mutex;
-	int				index;
-	int				n_philo;
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
-	int				*must_eat;
-	int				*stop_exec;
-	int				n_eat;
-	long int		init_time;
-	long int		ref_time;
+	int				index; //BIEN
+	int				n_philo; //BIEN
+	long int		time_die; //BIEN
+	long int		time_eat; //BIEN
+	long int		time_sleep; //BIEN
+	int				n_eat; //BIEN
+	int				*must_eat; //BIEN
+	int				*stop_exec; //BIEN
+	long int		init_time; //BIEN
+	long int		ref_time; //POR PUNTERO?
 	struct s_philo	*next;
 }					t_philo;
 typedef struct s_utils
 {
 	int				n_philo;
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
+	long int		time_die;
+	long int		time_eat;
+	long int		time_sleep;
 	int				must_eat;
 	int				stop_exec;
 	long int		init_time;
@@ -54,7 +54,7 @@ typedef struct s_utils
 	pthread_mutex_t	print_mutex;
 	t_philo			*philo;
 }					t_utils;
-void				init_utils(t_utils *utils, int argc, char **argv);
+int					init_utils(t_utils *utils, int argc, char **argv);
 t_philo				*init_philo(int n_philo, t_utils *utils);
 int					str_is_number(char *str);
 int					control_argv(int argc, char **argv);
@@ -74,4 +74,5 @@ void				philo_sleep(t_philo *pointer);
 long int			get_current_time(void);
 void				*monitor(void *philo_list);
 void				ft_putnbr_fd(long int n, int fd);
+void                free_resources(t_utils *utils);
 #endif

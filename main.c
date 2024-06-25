@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:08:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/10 21:02:35 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:45:31 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,8 @@ int	main(int argc, char **argv)
 
 	if (!control_argv(argc, argv))
 		return (1);
-	if (utils.n_philo <= 0)
-	{
-		ft_putendl_fd("Error: At least 1 philo needed to start the simulation",
-			2);
-		return (1);
-	}
-	init_utils(&utils, argc, argv);
+	if (!init_utils(&utils, argc, argv))
+        return (1);
 	if (utils.n_philo == 1)
 		pthread_create(&utils.philo->thread, NULL, philo_routine,
 			(void *)utils.philo);
