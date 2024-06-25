@@ -12,59 +12,59 @@
 
 #include "philo.h"
 
-void  link_last_to_first(t_philo *philo)
+void	link_last_to_first(t_philo *philo)
 {
-  t_philo *head;
+	t_philo	*head;
 
-  head = philo;
-  while(philo->next != NULL)
-    philo = philo->next;
-  philo->next = head;
-  philo = head;
+	head = philo;
+	while (philo->next != NULL)
+		philo = philo->next;
+	philo->next = head;
+	philo = head;
 }
 
-t_philo *init_philo(int n_philo, t_utils *utils)
+t_philo	*init_philo(int n_philo, t_utils *utils)
 {
-    t_philo *current_philo;
-    t_philo *philo;
-    int     i;
+	t_philo	*current_philo;
+	t_philo	*philo;
+	int		i;
 
 	i = 1;
 	philo = new_philo(i, utils);
 	if (!philo)
 		return (NULL);
-  i++;
+	i++;
 	while (i <= n_philo)
 	{
-    current_philo = new_philo(i, utils);
+		current_philo = new_philo(i, utils);
 		if (!current_philo)
 			return (NULL);
-    philo_add_back(philo, current_philo);
-    i++;
+		philo_add_back(philo, current_philo);
+		i++;
 	}
-  link_last_to_first(philo);
-  return (philo);
+	link_last_to_first(philo);
+	return (philo);
 }
 
-void  init_forks(t_utils *utils)
+void	init_forks(t_utils *utils)
 {
-  int i;
-  t_philo *list;
+	int		i;
+	t_philo	*list;
 
-  i = 0;
-  list = utils->philo;
-  pthread_mutex_init(&utils->time_mutex, NULL);
-  pthread_mutex_init(&utils->status_mutex, NULL);
-  pthread_mutex_init(&utils->print_mutex, NULL);
-  while (i < utils->n_philo)
-  {
-    pthread_mutex_init(&list->fork, NULL);
-    list->time_mutex = &utils->time_mutex;
-    list->status_mutex = &utils->status_mutex;
-    list->print_mutex = &utils->print_mutex;
-    list = list->next;
-    i++;
-  }
+	i = 0;
+	list = utils->philo;
+	pthread_mutex_init(&utils->time_mutex, NULL);
+	pthread_mutex_init(&utils->status_mutex, NULL);
+	pthread_mutex_init(&utils->print_mutex, NULL);
+	while (i < utils->n_philo)
+	{
+		pthread_mutex_init(&list->fork, NULL);
+		list->time_mutex = &utils->time_mutex;
+		list->status_mutex = &utils->status_mutex;
+		list->print_mutex = &utils->print_mutex;
+		list = list->next;
+		i++;
+	}
 }
 
 void	init_utils(t_utils *utils, int argc, char **argv)
@@ -76,9 +76,8 @@ void	init_utils(t_utils *utils, int argc, char **argv)
 	utils->must_eat = -1;
 	if (argc == 6)
 		utils->must_eat = ft_atoi(argv[5]);
-  utils->init_time = get_current_time();
-  utils->stop_exec = 0;
+	utils->init_time = get_current_time();
+	utils->stop_exec = 0;
 	utils->philo = init_philo(utils->n_philo, utils);
-  init_forks(utils);
+	init_forks(utils);
 }
-

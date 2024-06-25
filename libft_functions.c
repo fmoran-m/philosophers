@@ -58,12 +58,12 @@ void	ft_putendl_fd(char *s, int fd)
 	write(fd, "\n", 1);
 }
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-  int i;
+	int	i;
 
-  i = 0;
-  while (str[i])
-    i++;
-  return (i);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
