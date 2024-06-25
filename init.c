@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 19:42:38 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/25 16:49:12 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:58:21 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,11 @@ int	init_utils(t_utils *utils, int argc, char **argv)
 	utils->time_sleep = ft_atoi(argv[4]);
 	utils->must_eat = -1;
 	if (argc == 6)
+	{
 		utils->must_eat = ft_atoi(argv[5]);
+		if (utils->must_eat == 0)
+			return (0);
+	}
 	utils->stop_exec = 0;
 	utils->init_time = get_current_time();
 	utils->philo = init_philo(utils->n_philo, utils);
