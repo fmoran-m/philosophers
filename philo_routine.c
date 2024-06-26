@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:34:53 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/26 14:34:55 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:52:04 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ void	*philo_routine(void *arg)
 			eat_one(pointer);
 			return (NULL);
 		}
-		else
-			eat(pointer);
+		eat(pointer);
 		philo_sleep(pointer);
 		think(pointer);
 	}
