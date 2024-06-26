@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 19:42:38 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/25 20:23:54 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:49:40 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	free_list(t_philo *philo)
 	}
 }
 
-void	link_last_to_first(t_philo *philo)
+static void	link_last_to_first(t_philo *philo)
 {
 	t_philo	*head;
 
@@ -35,7 +35,7 @@ void	link_last_to_first(t_philo *philo)
 	philo = head;
 }
 
-t_philo	*init_philo(int n_philo, t_utils *utils)
+static t_philo	*init_philo(int n_philo, t_utils *utils)
 {
 	t_philo	*current_philo;
 	t_philo	*philo;

@@ -6,7 +6,7 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:13:14 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/25 21:01:54 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:46:31 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-typedef struct s_philo // CAMBIAR INTS POR LONG INTS
+typedef struct s_philo
 {
 	pthread_t		thread;
 	pthread_mutex_t	fork;
@@ -48,15 +48,12 @@ typedef struct s_utils
 	int				must_eat;
 	int				stop_exec;
 	long int		init_time;
-	pthread_t		monitor;
 	pthread_mutex_t	time_mutex;
 	pthread_mutex_t	status_mutex;
 	pthread_mutex_t	print_mutex;
 	t_philo			*philo;
 }					t_utils;
 int					init_utils(t_utils *utils, int argc, char **argv);
-t_philo				*init_philo(int n_philo, t_utils *utils);
-int					str_is_number(char *str);
 int					control_argv(int argc, char **argv);
 t_philo				*new_philo(int index, t_utils *utils);
 void				philo_add_back(t_philo *philo, t_philo *new_philo);
@@ -65,8 +62,6 @@ void				*ft_calloc(size_t count, size_t size);
 void				ft_putendl_fd(char *s, int fd);
 int					ft_strlen(char *str);
 void				*philo_routine(void *utils);
-void				*philo_odd_routine(void *arg);
-void				link_last_to_first(t_philo *philo);
 int					start_threads(t_utils *utils);
 void				think(t_philo *pointer);
 void				eat(t_philo *pointer);

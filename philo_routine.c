@@ -6,13 +6,13 @@
 /*   By: fmoran-m <fmoran-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:34:53 by fmoran-m          #+#    #+#             */
-/*   Updated: 2024/06/26 14:52:04 by fmoran-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:06:25 by fmoran-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	loop_condition(t_philo *philo)
+static int	loop_condition(t_philo *philo)
 {
 	pthread_mutex_lock(philo->status_mutex);
 	if (*philo->stop_exec)
