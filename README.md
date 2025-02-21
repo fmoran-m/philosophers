@@ -39,5 +39,35 @@ The main challenge is to ensure that all philosophers eat in time and that no on
  ```
 In this example, there are 5 philosophers, each with a maximum time of 800 milliseconds before dying, 200 milliseconds to eat, 200 milliseconds to sleep, and each philosopher must eat 3 times.
 
+## Implementation
+
+The philosophers begin eating in two separate waves, staggered by a few microseconds. First, the even-indexed philosophers start, followed by the odd ones. If the number of philosophers is even, up to half of them can eat simultaneously. However, if the number is odd, only half minus one can eat at the same time, leaving one fork temporarily unused.
+
+After finishing their meal, philosophers sleep for a fixed duration before transitioning to the thinking state. They continue thinking until they gain access to two forks, which happens when the corresponding mutexes become available. Only then can they start eating again.
+
+### Odd Numbers
+
+The most problematic scenario arises when there is an odd number of philosophers, as one of them will inevitably sit out for an entire cycle without eating, significantly increasing the risk of starvation.
+
+Additionally, a major issue that must be addressed is preventing a chain reaction where multiple philosophers hold onto one fork indefinitely, blocking everyone else from eating. To avoid this, philosophers pick up forks in opposite directions:
+
+Even-indexed philosophers grab their right fork first.
+
+Odd-indexed philosophers grab their left fork first.
+
+### Delays
+
+Another critical scenario occurs when a philosopher who has already skipped one eating cycle is about to eat, but a newly awakened neighbor steals a fork, forcing them to skip yet another turn. This could lead to starvation, even if it was not supposed to happen.
+
+To mitigate this, a slight delay is introduced for odd-indexed philosophers when waking up, ensuring that the first and last philosopher do not wake up at the same time. This prevents unfair fork stealing and reduces the risk of starvation in scenarios with an odd number of participants.
+
+### Monitoring
+
+To track the philosophers’ status, an extra monitoring thread is created. This thread continuously checks:
+
+- How many times each philosopher has eaten.
+- How long they have gone without eating.
+
+If a philosopher exceeds the time_to_die threshold, or if all philosophers have reached the required number of meals (if this option is set), the simulation terminates immediately, printing the corresponding message.
 
 
