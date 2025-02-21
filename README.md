@@ -21,3 +21,23 @@ The simulation stops if a philosopher dies of starvation. To avoid this:
 All philosophers must eat and should never starve.
 Philosophers do not communicate with each other and cannot predict if another philosopher is about to die.
 The main challenge is to ensure that all philosophers eat in time and that no one dies!
+
+## Usage
+```
+./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
+```
+- `number_of_philosophers`: The total number of philosophers (threads) sitting at the table.
+- `time_to_die`: The maximum amount of time a philosopher can go without eating before "dying" (in milliseconds).
+- `time_to_eat`: The time each philosopher spends eating (in milliseconds).
+- `time_to_sleep`: The time each philosopher spends sleeping (in milliseconds).
+- `[number_of_times_each_philosopher_must_eat]` (optional): The number of times each philosopher must eat before the simulation ends. If not provided, the philosophers will continue eating and sleeping indefinitely.
+
+### Example Usage:
+
+   ```bash
+   ./philo 5 800 200 200 3
+ ```
+In this example, there are 5 philosophers, each with a maximum time of 800 milliseconds before dying, 200 milliseconds to eat, 200 milliseconds to sleep, and each philosopher must eat 3 times.
+
+
+
